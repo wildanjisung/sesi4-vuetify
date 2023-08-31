@@ -1,24 +1,35 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    angka: 14
+    list: [] 
   },
   mutations: {
-    setAngka(state, param) {
-      state.angka = param
+    setList(state, param) {
+      state.list = param
     }
   },
   actions: {
-    changeAngkaValue(store, param) {
-      if (param >= 10 ) {
-        alert("tidak boleh lerbih dari 10")
-      } else {
-        store.commit("setAngka", param)
-      }
+    fetchList(store) {
+      axios.get('https://pokeapi.co/api/v2/pokemon', {
+        params: {
+          limit: 5,
+          offset: store.state.list.length
+        }
+      })
+        .then((response) => {
+          store.commit("setList", [
+            ...store.state.list,
+            ...response.dat.results
+          ]);
+        })
+        .catch(error => {
+          alert(error);
+        })
     }
   },
 })

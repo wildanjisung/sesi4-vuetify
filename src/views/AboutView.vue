@@ -1,8 +1,14 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
-    <h1>angka dari store: {{ angakaDariStore }}</h1>
-    <button @click="changeAngka">ganti angka</button>
+    <h1>Daftar nama nama Pokemon</h1>
+    
+    <ul>
+      <li v-for="item in listDariStore" :key="item.name">
+        {{ item.name }}
+      </li>
+    </ul>
+
+    <button @click="getPokemon">get Pokemon</button>
   </div>
 </template>
 
@@ -10,16 +16,17 @@
 export default {
   name: 'AboutView',
   methods: {
-    changeAngka() {
-      // this.$store.commit("setAngka", 5)
-      this.$store.dispatch("changeAngkaValue", 8)
+    getPokemon() {
+      this.$store.dispatch("fetchList")
     }
   },
   computed: {
-    angakaDariStore() {
-      console.log("test1")
-      return this.$store.state.angka;
+    listDariStore() {
+      return this.$store.state.list;
     }
+  },
+  mounted() {
+    this.getPokemon();
   }
 }
 </script>
