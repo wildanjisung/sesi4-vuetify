@@ -24,7 +24,7 @@ export default new Vuex.Store({
         .then((response) => {
           store.commit("setList", [
             ...store.state.list,
-            ...response.dat.results
+            ...response.data.results
           ]);
         })
         .catch(error => {
